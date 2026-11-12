@@ -1,0 +1,44 @@
+# Product orientation is opt-in so importing an unversioned old .config is safe.
+config AIC_SCREEN_UNIFIED_ORIENTATION
+    bool "Use product direction SN and unified geometry (new products)"
+    default n
+    depends on AIC_DISPLAY_DRV && AIC_SCREEN_PROFILE_PRESENT && !AIC_BOOTLOADER
+    select AIC_USING_GE
+    help
+        Existing products must leave this disabled to preserve their serial
+        number, framebuffer/LVGL settings and touch behaviour. New products
+        enable this once, then select framebuffer rotation independently.
+        The CDC SN stored in Flash is maintained by the developer and tells
+        the host its direction and resolution.
+
+config AIC_SCREEN_ORIENTATION_A
+    bool
+    default y if AIC_SCREEN_UNIFIED_ORIENTATION
+
+config AIC_SCREEN_ORIENTATION_DEGREE
+    int
+    default 0
+
+config AIC_SCREEN_ORIENTATION_LETTER
+    string
+    default "A"
+
+config AIC_SCREEN_LOGICAL_WIDTH
+    int
+    default AIC_SCREEN_BASE_HEIGHT if AICFB_ROTATE_90 || AICFB_ROTATE_270
+    default AIC_SCREEN_BASE_WIDTH
+
+config AIC_SCREEN_LOGICAL_HEIGHT
+    int
+    default AIC_SCREEN_BASE_WIDTH if AICFB_ROTATE_90 || AICFB_ROTATE_270
+    default AIC_SCREEN_BASE_HEIGHT
+
+config AIC_SCREEN_LOGICAL_WIDTH_TEXT
+    string
+    default AIC_SCREEN_BASE_HEIGHT_TEXT if AICFB_ROTATE_90 || AICFB_ROTATE_270
+    default AIC_SCREEN_BASE_WIDTH_TEXT
+
+config AIC_SCREEN_LOGICAL_HEIGHT_TEXT
+    string
+    default AIC_SCREEN_BASE_WIDTH_TEXT if AICFB_ROTATE_90 || AICFB_ROTATE_270
+    default AIC_SCREEN_BASE_HEIGHT_TEXT

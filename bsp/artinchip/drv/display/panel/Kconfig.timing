@@ -1,0 +1,61 @@
+
+menu "display timing of simple panel"
+
+    config PANEL_PIXELCLOCK
+        int "pixelclock in MHZ"
+        default 50 if AIC_SCREEN_VMAXA44_19
+        default 90 if AIC_SCREEN_VMAXA51_12_3
+        default 128 if AIC_SCREEN_VMAXC63_12_6
+        default 52
+
+    config PANEL_HACTIVE
+        int "hactive" if !AIC_SCREEN_UNIFIED_ORIENTATION
+        default AIC_SCREEN_BASE_WIDTH if AIC_SCREEN_UNIFIED_ORIENTATION
+        default 1920 if AIC_SCREEN_VMAXA44_19 || AIC_SCREEN_VMAXA51_12_3
+        default 2560 if AIC_SCREEN_VMAXC63_12_6
+        default 1024
+
+    config PANEL_VACTIVE
+        int "vactive" if !AIC_SCREEN_UNIFIED_ORIENTATION
+        default AIC_SCREEN_BASE_HEIGHT if AIC_SCREEN_UNIFIED_ORIENTATION
+        default 360 if AIC_SCREEN_VMAXA44_19
+        default 720 if AIC_SCREEN_VMAXA51_12_3
+        default 666 if AIC_SCREEN_VMAXC63_12_6
+        default 600
+
+    config PANEL_HBP
+        int "hback-porch"
+        default 56 if AIC_SCREEN_VMAXA44_19 || AIC_SCREEN_VMAXA51_12_3
+        default 80 if AIC_SCREEN_VMAXC63_12_6
+    default 160
+
+    config PANEL_HFP
+        int "hfront-porch"
+        default 140 if AIC_SCREEN_VMAXA44_19
+        default 120 if AIC_SCREEN_VMAXA51_12_3
+        default 48 if AIC_SCREEN_VMAXC63_12_6
+    default 160
+
+    config PANEL_HSW
+        int "hsync-len"
+        default 32 if AIC_SCREEN_VMAXA44_19 || AIC_SCREEN_VMAXA51_12_3 || AIC_SCREEN_VMAXC63_12_6
+    default 20
+
+    config PANEL_VBP
+        int "vback-porch"
+        default 8 if AIC_SCREEN_VMAXA44_19 || AIC_SCREEN_VMAXA51_12_3
+        default 32 if AIC_SCREEN_VMAXC63_12_6
+    default 12
+
+    config PANEL_VFP
+        int "vfront-porch"
+        default 12 if AIC_SCREEN_VMAXA44_19 || AIC_SCREEN_VMAXA51_12_3
+        default 80 if AIC_SCREEN_VMAXC63_12_6
+    default 20
+
+    config PANEL_VSW
+        int "vsync-len"
+        default 5 if AIC_SCREEN_VMAXA44_19 || AIC_SCREEN_VMAXA51_12_3
+        default 6 if AIC_SCREEN_VMAXC63_12_6
+    default 2
+endmenu

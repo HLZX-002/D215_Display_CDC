@@ -1,0 +1,107 @@
+Import('AIC_ROOT')
+Import('PRJ_KERNEL')
+from building import *
+
+cwd = GetCurrentDir()
+src = Glob('*.c')
+CPPPATH = []
+
+# The drivers in this directory use the RT-Thread device/I2C APIs.  Baremetal
+# projects have their own touch drivers under bsp/artinchip/drv_bare/touch and
+# must not compile these sources even when the shared Kconfig defaults enable
+# the touch-panel symbols.
+def touch_depend(symbol):
+    return PRJ_KERNEL == 'rt-thread' and GetDepend(symbol)
+
+def touch_panel_depend(symbol):
+    # The C59 14.5-inch panel is always paired with C145HAX01.  Keep this
+    # selection tied to the screen so a stale touch-driver choice in .config
+    # cannot make the wrong driver initialize on the same I2C bus.
+    if touch_depend('AIC_SCREEN_VMAXC59_14_5') or touch_depend('AIC_SCREEN_VMAXC54_12_6'):
+        return symbol == 'AIC_TOUCH_PANEL_C145HAX01'
+    return touch_depend(symbol)
+
+if touch_depend('AIC_USING_CTP'):
+    CPPPATH.append(cwd)
+    CPPPATH.append(cwd + '/common')
+    src += Glob('common/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_GT911'):
+    CPPPATH.append(cwd + '/gt911/inc')
+    src += Glob('gt911/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_FT7411'):
+    CPPPATH.append(cwd + '/ft7411/inc')
+    src += Glob('ft7411/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_GSL1680'):
+    CPPPATH.append(cwd + '/gsl1680/inc')
+    src += Glob('gsl1680/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_ST16XX'):
+    CPPPATH.append(cwd + '/st16xx/inc')
+    src += Glob('st16xx/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_AXS15260'):
+    CPPPATH.append(cwd + '/axs15260/inc')
+    src += Glob('axs15260/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_CST3240'):
+    CPPPATH.append(cwd + '/cst3240/inc')
+    src += Glob('cst3240/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_TW31XX'):
+    CPPPATH.append(cwd + '/tw31xx/inc')
+    src += Glob('tw31xx/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_CST826'):
+    CPPPATH.append(cwd + '/cst826/inc')
+    src += Glob('cst826/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_GSL3676'):
+    CPPPATH.append(cwd + '/gsl3676/inc')
+    src += Glob('gsl3676/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_ST77922'):
+    CPPPATH.append(cwd + '/st77922/inc')
+    src += Glob('st77922/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_C145HAX01'):
+    CPPPATH.append(cwd + '/c145hax01/inc')
+    src += Glob('c145hax01/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_ILI2511'):
+    CPPPATH.append(cwd + '/ili2511/inc')
+    src += Glob('ili2511/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_ILI21XX'):
+    CPPPATH.append(cwd + '/ili2511/inc')
+    src += Glob('ili2511/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_ILI23XX'):
+    CPPPATH.append(cwd + '/ili2511/inc')
+    src += Glob('ili2511/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_FT6336'):
+    CPPPATH.append(cwd + '/ft6336/inc')
+    src += Glob('ft6336/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_C123HAX022'):
+    CPPPATH.append(cwd + '/c123hax022/inc')
+    src += Glob('c123hax022/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_CHSC5XXX'):
+    CPPPATH.append(cwd + '/chsc5xxx/inc')
+    src += Glob('chsc5xxx/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_CHSC6XXX'):
+    CPPPATH.append(cwd + '/chsc6xxx/inc')
+    src += Glob('chsc6xxx/src/*.c')
+
+if touch_panel_depend('AIC_TOUCH_PANEL_JD9366'):
+    CPPPATH.append(cwd + '/jd9366/inc')
+    src += Glob('jd9366/src/*.c')
+
+group = DefineGroup('touch', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')

@@ -1,0 +1,45 @@
+mainmenu "ArtInChip Luban-Lite SDK Configuration"
+
+menu "Project options"
+
+config PRJ_DEFCONFIG_FILENAME
+    string "Project defconfig file name"
+
+comment "-- Important: If following options have been changed, you need save & rerun menuconfig before changing any other options."
+
+config PRJ_CHIP
+    string "Chip name"
+    #option env="PRJ_CHIP"
+    # Don't set default value to make defconfig contain CONFIG_PRJ_CHIP option
+
+config PRJ_BOARD
+    string "Board name"
+    #option env="PRJ_BOARD"
+
+config PRJ_KERNEL
+    string "Kernel name"
+    #option env="PRJ_KERNEL"
+
+config PRJ_APP
+    string "Application name"
+    #option env="PRJ_APP"
+
+endmenu
+
+config PLATFORM_LUBANLITE
+    bool
+    default y
+
+config PKGS_DIR
+    string
+    default "tools/env/packages"
+	help
+        packages directory for RT-Thread online packages
+
+if ! AIC_BOOTLOADER
+source "application/Kconfig"
+endif
+source ".Kconfig.prj"
+source "Kconfig.display"
+source "packages/Kconfig"
+source "bsp/Kconfig"

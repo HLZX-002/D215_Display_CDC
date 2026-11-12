@@ -1,0 +1,299 @@
+
+menu "Display Panels"
+
+    choice
+        prompt "ArtInChip Panel Drivers"
+        default AIC_PANEL_DSI_JD9365 if AIC_SCREEN_VMAXC16_9_16 || AIC_SCREEN_VMAX17_11_88 || AIC_SCREEN_VMAXA52_5_2 || AIC_SCREEN_VMAXC50_6 || AIC_SCREEN_VMAXC56_7 || AIC_SCREEN_VMAXC32_10_95 || AIC_SCREEN_VMAXA27_7 || AIC_SCREEN_VMAXC55_5_99 || AIC_SCREEN_VMAXC57_7 || AIC_SCREEN_VMAXC59_14_5 || AIC_SCREEN_VMAXC54_12_6 || AIC_SCREEN_VMAXC15_10_11 || AIC_SCREEN_VMAXC30_6_67 || AIC_SCREEN_VMAXC40_12_6 || AIC_SCREEN_VMAXC49_15_6 || AIC_SCREEN_VMAXA67_11_6
+        default AIC_SIMPLE_PANEL if AIC_SCREEN_VMAXA44_19 || AIC_SCREEN_VMAXA51_12_3 || AIC_SCREEN_VMAXC63_12_6
+        default AIC_SIMPLE_PANEL
+
+#
+# Simple Panel
+#
+    config AIC_SIMPLE_PANEL
+        bool "ArtInChip SIMPLE panel"
+        depends on AIC_DISP_RGB || AIC_DISP_LVDS
+        help
+            Simple Panel support general RGB or LVDS LCD
+
+if !AIC_DISP_PQ_TOOL
+#
+# MIPI-DSI Panel
+#
+    config AIC_PANEL_DSI_XM91080
+        bool "ArtInChip MIPI DSI XM91080 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_ST7797
+        bool "ArtInChip MIPI DSI ST7797 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_ST7703
+        bool "ArtInChip MIPI DSI ST7703 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_ILI9881C
+        bool "ArtInChip MIPI DSI ILI9881C panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_ILI9881C_DC01
+        bool "ArtInChip MIPI DSI ILI9881C_DC01 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_HX8394
+        bool "ArtInChip MIPI DSI HX8394 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_JD9365
+        bool "ArtInChip MIPI DSI JD9365 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_JD9365_DC02
+        bool "ArtInChip MIPI DSI JD9365_DC02 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_JD9365_DC03
+        bool "ArtInChip MIPI DSI JD9365_DC03 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_AXS15231B
+        bool "ArtInChip MIPI DSI AXS15231B panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_NV3051
+        bool "ArtInChip MIPI DSI NV3051 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_FL7707
+        bool "ArtInChip MIPI DSI FL7707 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_FT8201
+        bool "ArtInChip MIPI DSI FT8201 panel"
+        depends on AIC_DISP_MIPI_DSI
+
+    config AIC_PANEL_DSI_ST7701S
+        bool "ArtInChip MIPI DSI ST7701S panel"
+        depends on AIC_DISP_MIPI_DSI
+
+#
+# MIPI-DBI Type B I8080 Panel
+#
+    config AIC_PANEL_DBI_ILI9488
+        bool "ArtInChip MIPI DBI ILI9488 panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type B, I8080_RGB666_16BIT_3CYCLE
+
+    config AIC_PANEL_DBI_ILI9486L
+        bool "ArtInChip MIPI DBI ILI9486L panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type B, I8080_RGB666_8BIT
+
+    config AIC_PANEL_DBI_ST7789
+        bool "ArtInChip MIPI DBI ST7789 panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type B, I8080_RGB565_8BIT
+#
+# MIPI-DBI Type C SPI Panel
+#
+    config AIC_PANEL_DBI_ILI9341
+        bool "ArtInChip MIPI DBI ILI9341 panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type C, SPI_4LINE_RGB888
+
+    config AIC_PANEL_DBI_ST77903
+        bool "ArtInChip MIPI DBI ST77903 panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type C, SPI_4SDA_RGB666
+
+    config AIC_PANEL_DBI_ILI9327
+        bool "ArtInChip MIPI DBI ILI9327 panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type C, SPI_4LINE_RGB565
+
+    config AIC_PANEL_DBI_CO5300
+        bool "ArtInChip MIPI DBI CO5300 panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type C, SPI_4DA_RGB888
+
+    config AIC_PANEL_DBI_ST77916
+        bool "ArtInChip MIPI DBI ST77916 panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type C, SPI_4LINE_RGB565
+
+    config AIC_PANEL_DBI_GC0D01N
+        bool "ArtInChip MIPI DBI GC0D01N panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type C, SPI_4LINE_RGB565
+
+    config AIC_PANEL_DBI_ST77912
+        bool "ArtInChip MIPI DBI ST77912 panel"
+        depends on AIC_DISP_MIPI_DBI
+        help
+            MIPI-DBI Type C, SPI_4LINE_RGB565
+
+#
+# RGB Panel SPI Init
+#
+    config AIC_PANEL_RGB_ST7701S
+        bool "ArtInChip RGB ST7701S panel"
+        depends on AIC_DISP_RGB
+        select AIC_PANEL_SPI_EMULATION
+
+    config AIC_PANEL_RGB_GC9A01A
+        bool "ArtInChip RGB GC9A01A panel"
+        depends on AIC_DISP_RGB
+        select AIC_PANEL_SPI_EMULATION
+
+    config AIC_PANEL_RGB_NT35560
+        bool "ArtInChip RGB NT35560 panel"
+        depends on AIC_DISP_RGB
+        select AIC_PANEL_SPI_EMULATION
+
+    config AIC_PANEL_RGB_ST77922
+        bool "ArtInChip RGB ST77922 panel"
+        depends on AIC_DISP_RGB
+        select AIC_PANEL_SPI_EMULATION
+#
+# SRGB Panel
+#
+    config AIC_PANEL_SRGB_HX8238
+        bool "ArtInChip SRGB HX8238 panel"
+        depends on AIC_DISP_RGB
+
+#
+# RGB Panel IIC Init
+#
+    config AIC_PANEL_LCOS_HX7033
+        bool "ArtInChip RGB HX7033 panel"
+        depends on AIC_I2C_DRV && AIC_DISP_RGB
+
+#
+# Bridge Panel
+#
+    config AIC_PANEL_BRIDGE_LT8911
+        bool "ArtInChip LT8911 LVDS-eDP bridge"
+        depends on AIC_DISP_LVDS
+
+    config AIC_PANEL_DSI_EDP_LT9811EXB
+        bool "ArtInChip MIPI DSI bridge eDP LT8911EXB"
+        depends on AIC_DISP_MIPI_DSI
+endif
+    endchoice
+
+config AIC_PANEL_CUSTOM_RESOLUTION
+    bool "Custom Display Timing"
+    depends on AIC_SIMPLE_PANEL
+    default n
+
+choice
+        prompt "Classic Resolution List"
+        depends on AIC_SIMPLE_PANEL
+        depends on !AIC_PANEL_CUSTOM_RESOLUTION
+        default AIC_PANEL_1024X600_RESOLUTION
+
+    config AIC_PANEL_480X272_RESOLUTION
+        bool "480x272"
+        depends on AIC_DISP_RGB
+
+    config AIC_PANEL_800X480_RESOLUTION
+        bool "800x480"
+        depends on AIC_DISP_RGB
+
+    config AIC_PANEL_1024X600_RESOLUTION
+        bool "1024x600"
+        depends on AIC_DISP_RGB || AIC_DISP_LVDS
+
+    config AIC_PANEL_1920X1080_RESOLUTION
+        bool "1920x1080"
+        depends on AIC_DISP_LVDS
+endchoice
+
+config RGB_PANEL_MATCH_ID
+    int
+    default 0 if AIC_PANEL_1024X600_RESOLUTION
+    default 1 if AIC_PANEL_800X480_RESOLUTION
+    default 2 if AIC_PANEL_480X272_RESOLUTION
+    default 3 if AIC_PANEL_CUSTOM_RESOLUTION
+
+config LVDS_PANEL_MATCH_ID
+    int
+    default 0 if AIC_PANEL_1024X600_RESOLUTION
+    default 1 if AIC_PANEL_1920X1080_RESOLUTION
+    default 2 if AIC_PANEL_CUSTOM_RESOLUTION
+
+choice
+    prompt "ILI9881C Match Table"
+    depends on AIC_PANEL_DSI_ILI9881C
+    default ILI9881C_DEFAULT
+
+    config ILI9881C_DEFAULT
+        bool "default 4 lane 800x1280"
+    config TFT050BP071_DEFAULT
+        bool "tft050bp071 2 lane 720"
+endchoice
+
+config ILI9881C_MATCH_ID
+    int
+    default 0 if ILI9881C_DEFAULT
+    default 1 if TFT050BP071_DEFAULT
+
+choice
+    prompt "ST7789 Match Table"
+    depends on AIC_PANEL_DBI_ST7789
+    default ST7789_P3
+
+    config ST7789_P3
+        bool "P3 I8080 240x320"
+    config ST7789_T3
+        bool "T3 SPI 4LINE 240x320"
+    config ST7789_V3
+        bool "V3 SPI 4LINE 240x320"
+endchoice
+
+config ST7789_MATCH_ID
+    int
+    default 0 if ST7789_P3
+    default 1 if ST7789_T3
+    default 2 if ST7789_V3
+
+config ST7789_PANEL_RESET
+    string "ST7789 display panel reset pin"
+    depends on AIC_PANEL_DBI_ST7789
+    default "PD.23"
+
+choice
+    prompt "LT9811EXB Resolution List"
+    depends on AIC_PANEL_DSI_EDP_LT9811EXB
+    default LT9811EXB_1920X1080
+
+    config LT9811EXB_1920X1200
+        bool "1920x1200"
+    config LT9811EXB_1920X1080
+        bool "1920x1080"
+    config LT9811EXB_1366X768
+        bool "1366x768"
+endchoice
+
+config LT9811EXB_RESOLUTION
+    depends on AIC_PANEL_DSI_EDP_LT9811EXB
+    int
+    default 0 if LT9811EXB_1920X1200
+    default 1 if LT9811EXB_1920X1080
+    default 2 if LT9811EXB_1366X768
+
+
+if AIC_PANEL_CUSTOM_RESOLUTION && !AIC_DISP_PQ_TOOL
+source "bsp/artinchip/drv/display/panel/Kconfig.timing"
+endif
+
+endmenu

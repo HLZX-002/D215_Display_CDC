@@ -1,0 +1,433 @@
+#
+# Display Parameter
+#
+# 多屏整合：通过终端(menuconfig)选择主板与屏型号，所有屏参/引脚
+# 按宏联动到既有 SDK 配置链（display interface / panel / touch / LVDS）。
+#
+# 命名规范：主板 AIC_BOARD_<文件夹名>，屏 AIC_SCREEN_<文件夹名>
+#   （点号转为下划线，如 VMAXC16_462x1920_9.16 -> AIC_SCREEN_VMAXC16_9_16）
+#
+# 联动机制说明（重要）：
+#   - 对既有 choice（Display interface / Panel Drivers / CTP device /
+#     LVDS mode / LVDS link / framebuffer rotation）采用"条件 default"，
+#     select 对 choice 成员无效，见各原定义文件中的修改。
+#   - 对非 choice 的 bool（AIC_USING_TOUCH、AIC_PANEL_CUSTOM_RESOLUTION）
+#     在本文件屏选择处 select。
+#   - 新符号（AIC_JD9365_* 派生参数）在本文件首定义并条件 default；
+#     既有符号（PANEL_*、AIC_TOUCH_*）只能在原文件内加条件 default，
+#     跨文件 default 不生效（kconfiglib first-match 按 source 顺序）。
+#
+
+menu "Display Parameter"
+
+choice
+    prompt "Select Board"
+    default AIC_BOARD_SY_L06
+
+    config AIC_BOARD_SY_L06
+        bool "SY_L06"
+
+    config AIC_BOARD_SY701_D2
+        bool "SY701_D2"
+
+    config AIC_BOARD_HL1409
+        bool "HL1409"
+
+    config AIC_BOARD_HL1102
+        bool "HL1102"
+
+    config AIC_BOARD_HL6067
+        bool "HL6067"
+
+    config AIC_BOARD_HL6011
+        bool "HL6011"
+
+    config AIC_BOARD_HL6126
+        bool "HL6126"
+endchoice
+
+choice
+    prompt "Select Screen"
+    default AIC_SCREEN_VMAXC16_9_16
+
+    # ---------- SY_L06 (MIPI) ----------
+    config AIC_SCREEN_VMAXC16_9_16
+        bool "VMAXC16 9.16inch 462x1920"
+        depends on AIC_BOARD_SY_L06
+        select AIC_USING_TOUCH
+
+    config AIC_SCREEN_VMAX17_11_88
+        bool "VMAX17 11.88inch 320x1600"
+        depends on AIC_BOARD_SY_L06
+
+    config AIC_SCREEN_VMAXA52_5_2
+        bool "VMAXA52 5.2inch 720x1280"
+        depends on AIC_BOARD_SY_L06
+
+    config AIC_SCREEN_VMAXC50_6
+        bool "VMAXC50 6inch 720x1440"
+        depends on AIC_BOARD_SY_L06
+
+    config AIC_SCREEN_VMAXC56_7
+        bool "VMAXC56 7inch 1200x1920"
+        depends on AIC_BOARD_SY_L06
+
+    config AIC_SCREEN_VMAXC32_10_95
+        bool "VMAXC32 10.95inch 1200x1920"
+        depends on AIC_BOARD_SY_L06
+
+    # ---------- SY701_D2 (MIPI) ----------
+    config AIC_SCREEN_VMAXA27_7
+        bool "VMAXA27 7inch 1024x600"
+        depends on AIC_BOARD_SY701_D2
+        select AIC_USING_TOUCH
+
+    config AIC_SCREEN_VMAXC55_5_99
+        bool "VMAXC55 5.99inch 540x1092"
+        depends on AIC_BOARD_SY701_D2
+
+    config AIC_SCREEN_VMAXC57_7
+        bool "VMAXC57 7inch 800x1280"
+        depends on AIC_BOARD_SY701_D2
+
+    # ---------- HL1409 (MIPI) ----------
+    config AIC_SCREEN_VMAXC59_14_5
+        bool "VMAXC59 14.5inch 2560x720"
+        depends on AIC_BOARD_HL1409
+        select AIC_USING_TOUCH
+
+    config AIC_SCREEN_VMAXC54_12_6
+        bool "VMAXC54 12.6inch 2560x666"
+        depends on AIC_BOARD_HL1409
+        select AIC_USING_TOUCH
+
+    # ---------- HL1102 (MIPI) ----------
+    config AIC_SCREEN_VMAXC15_10_11
+        bool "VMAXC15 10.11inch 480x1920"
+        depends on AIC_BOARD_HL1102
+        select AIC_USING_TOUCH
+
+    # ---------- HL6067 (MIPI) ----------
+    config AIC_SCREEN_VMAXC30_6_67
+        bool "VMAXC30 6.67inch 1080x2400"
+        depends on AIC_BOARD_HL6067
+        select AIC_USING_TOUCH
+
+    # ---------- HL6011 (EDP, DSI to eDP bridge) ----------
+    config AIC_SCREEN_VMAXC40_12_6
+        bool "VMAXC40 12.6inch 1920x515"
+        depends on AIC_BOARD_HL6011
+
+    config AIC_SCREEN_VMAXC49_15_6
+        bool "VMAXC49 15.6inch 1920x1080"
+        depends on AIC_BOARD_HL6011
+
+    config AIC_SCREEN_VMAXA67_11_6
+        bool "VMAXA67 11.6inch 1366x768"
+        depends on AIC_BOARD_HL6011
+
+    # ---------- HL6126 (LVDS) ----------
+    config AIC_SCREEN_VMAXA44_19
+        bool "VMAXA44 19inch 1920x360"
+        depends on AIC_BOARD_HL6126
+        select AIC_USING_TOUCH
+        select AIC_PANEL_CUSTOM_RESOLUTION
+
+    config AIC_SCREEN_VMAXA51_12_3
+        bool "VMAXA51 12.3inch 1920x720"
+        depends on AIC_BOARD_HL6126
+        select AIC_USING_TOUCH
+        select AIC_PANEL_CUSTOM_RESOLUTION
+
+    config AIC_SCREEN_VMAXC63_12_6
+        bool "VMAXC63 12.6inch 2560x666"
+        depends on AIC_BOARD_HL6126
+        select AIC_USING_TOUCH
+        select AIC_PANEL_CUSTOM_RESOLUTION
+endchoice
+
+# =====================================================================
+# Derived parameters (not shown in menu, auto computed from screen)
+# =====================================================================
+
+source "bsp/artinchip/drv/display/Kconfig.profiles"
+source "bsp/artinchip/drv/display/Kconfig.orientation"
+
+# ---- JD9365 DSI panel: display timing ----
+config AIC_JD9365_PIXELCLOCK
+    int
+    default 70000000  if AIC_SCREEN_VMAXC16_9_16
+    default 60000000  if AIC_SCREEN_VMAX17_11_88
+    default 72000000  if AIC_SCREEN_VMAXA52_5_2
+    default 75000000  if AIC_SCREEN_VMAXC50_6
+    default 149000000 if AIC_SCREEN_VMAXC56_7
+    default 168168000 if AIC_SCREEN_VMAXC32_10_95
+    default 60000000  if AIC_SCREEN_VMAXA27_7
+    default 68600000  if AIC_SCREEN_VMAXC55_5_99
+    default 76500000  if AIC_SCREEN_VMAXC57_7
+    default 136000000 if AIC_SCREEN_VMAXC59_14_5
+    default 120000000 if AIC_SCREEN_VMAXC54_12_6
+    default 71000000  if AIC_SCREEN_VMAXC15_10_11
+    default 178500000 if AIC_SCREEN_VMAXC30_6_67
+    default 77000000  if AIC_SCREEN_VMAXC40_12_6
+    default 152840000 if AIC_SCREEN_VMAXC49_15_6
+    default 85000000  if AIC_SCREEN_VMAXA67_11_6    
+
+config AIC_JD9365_HACTIVE
+    int
+    default AIC_SCREEN_BASE_WIDTH if AIC_SCREEN_UNIFIED_ORIENTATION
+    default 462  if AIC_SCREEN_VMAXC16_9_16
+    default 320  if AIC_SCREEN_VMAX17_11_88
+    default 720  if AIC_SCREEN_VMAXA52_5_2
+    default 720  if AIC_SCREEN_VMAXC50_6
+    default 1200 if AIC_SCREEN_VMAXC56_7
+    default 1200 if AIC_SCREEN_VMAXC32_10_95
+    default 1024 if AIC_SCREEN_VMAXA27_7
+    default 540  if AIC_SCREEN_VMAXC55_5_99
+    default 800  if AIC_SCREEN_VMAXC57_7
+    default 2560 if AIC_SCREEN_VMAXC59_14_5 || AIC_SCREEN_VMAXC54_12_6
+    default 480  if AIC_SCREEN_VMAXC15_10_11
+    default 1080 if AIC_SCREEN_VMAXC30_6_67
+    default 1920 if AIC_SCREEN_VMAXC40_12_6
+    default 1920 if AIC_SCREEN_VMAXC49_15_6
+    default 1366 if AIC_SCREEN_VMAXA67_11_6    
+
+config AIC_JD9365_HFRONT_PORCH
+    int
+    default 60  if AIC_SCREEN_VMAXC16_9_16
+    default 120 if AIC_SCREEN_VMAX17_11_88
+    default 120 if AIC_SCREEN_VMAXA52_5_2
+    default 50  if AIC_SCREEN_VMAXC50_6
+    default 100 if AIC_SCREEN_VMAXC56_7
+    default 48  if AIC_SCREEN_VMAXC32_10_95
+    default 240 if AIC_SCREEN_VMAXA27_7
+    default 160 if AIC_SCREEN_VMAXC55_5_99
+    default 122 if AIC_SCREEN_VMAXC57_7
+    default 48  if AIC_SCREEN_VMAXC59_14_5
+    default 28  if AIC_SCREEN_VMAXC54_12_6
+    default 50  if AIC_SCREEN_VMAXC15_10_11
+    default 118 if AIC_SCREEN_VMAXC30_6_67
+    default 200 if AIC_SCREEN_VMAXC40_12_6
+    default 150 if AIC_SCREEN_VMAXC49_15_6
+    default 180 if AIC_SCREEN_VMAXA67_11_6        
+
+config AIC_JD9365_HBACK_PORCH
+    int
+    default 50  if AIC_SCREEN_VMAXC16_9_16
+    default 120 if AIC_SCREEN_VMAX17_11_88
+    default 40  if AIC_SCREEN_VMAXA52_5_2
+    default 56  if AIC_SCREEN_VMAXC50_6
+    default 32  if AIC_SCREEN_VMAXC56_7
+    default 48  if AIC_SCREEN_VMAXC32_10_95
+    default 200 if AIC_SCREEN_VMAXA27_7
+    default 140 if AIC_SCREEN_VMAXC55_5_99
+    default 40  if AIC_SCREEN_VMAXC57_7
+    default 80  if AIC_SCREEN_VMAXC59_14_5
+    default 40  if AIC_SCREEN_VMAXC54_12_6
+    default 50  if AIC_SCREEN_VMAXC15_10_11
+    default 30  if AIC_SCREEN_VMAXC30_6_67
+    default 200 if AIC_SCREEN_VMAXC40_12_6
+    default 168 if AIC_SCREEN_VMAXC49_15_6
+    default 180 if AIC_SCREEN_VMAXA67_11_6    
+
+config AIC_JD9365_HSYNC_LEN
+    int
+    default 20 if AIC_SCREEN_VMAXC16_9_16
+    default 30 if AIC_SCREEN_VMAX17_11_88
+    default 3  if AIC_SCREEN_VMAXA52_5_2
+    default 20 if AIC_SCREEN_VMAXC50_6
+    default 12 if AIC_SCREEN_VMAXC56_7
+    default 4  if AIC_SCREEN_VMAXC32_10_95
+    default 40 if AIC_SCREEN_VMAXA27_7
+    default 100 if AIC_SCREEN_VMAXC55_5_99
+    default 20 if AIC_SCREEN_VMAXC57_7
+    default 32 if AIC_SCREEN_VMAXC59_14_5
+    default 12 if AIC_SCREEN_VMAXC54_12_6
+    default 20 if AIC_SCREEN_VMAXC15_10_11
+    default 8  if AIC_SCREEN_VMAXC30_6_67
+    default 20 if AIC_SCREEN_VMAXC40_12_6
+    default 12 if AIC_SCREEN_VMAXC49_15_6
+    default 10 if AIC_SCREEN_VMAXA67_11_6    
+
+config AIC_JD9365_VACTIVE
+    int
+    default AIC_SCREEN_BASE_HEIGHT if AIC_SCREEN_UNIFIED_ORIENTATION
+    default 1920 if AIC_SCREEN_VMAXC16_9_16
+    default 1600 if AIC_SCREEN_VMAX17_11_88
+    default 1280 if AIC_SCREEN_VMAXA52_5_2
+    default 1440 if AIC_SCREEN_VMAXC50_6
+    default 1920 if AIC_SCREEN_VMAXC56_7
+    default 1920 if AIC_SCREEN_VMAXC32_10_95
+    default 600  if AIC_SCREEN_VMAXA27_7
+    default 1092 if AIC_SCREEN_VMAXC55_5_99
+    default 1280 if AIC_SCREEN_VMAXC57_7
+    default 720  if AIC_SCREEN_VMAXC59_14_5
+    default 666  if AIC_SCREEN_VMAXC54_12_6
+    default 1920 if AIC_SCREEN_VMAXC15_10_11
+    default 2400 if AIC_SCREEN_VMAXC30_6_67
+    default 515  if AIC_SCREEN_VMAXC40_12_6
+    default 1080 if AIC_SCREEN_VMAXC49_15_6
+    default 768  if AIC_SCREEN_VMAXA67_11_6        
+
+config AIC_JD9365_VFRONT_PORCH
+    int
+    default 16 if AIC_SCREEN_VMAXC16_9_16
+    default 16 if AIC_SCREEN_VMAX17_11_88
+    default 40 if AIC_SCREEN_VMAXA52_5_2
+    default 16 if AIC_SCREEN_VMAXC50_6
+    default 18 if AIC_SCREEN_VMAXC56_7
+    default 200 if AIC_SCREEN_VMAXC32_10_95
+    default 30 if AIC_SCREEN_VMAXA27_7
+    default 16 if AIC_SCREEN_VMAXC55_5_99
+    default 8  if AIC_SCREEN_VMAXC57_7
+    default 80 if AIC_SCREEN_VMAXC59_14_5
+    default 20 if AIC_SCREEN_VMAXC54_12_6
+    default 16 if AIC_SCREEN_VMAXC15_10_11
+    default 20 if AIC_SCREEN_VMAXC30_6_67
+    default 20 if AIC_SCREEN_VMAXC40_12_6
+    default 26 if AIC_SCREEN_VMAXC49_15_6
+    default 26 if AIC_SCREEN_VMAXA67_11_6        
+
+config AIC_JD9365_VBACK_PORCH
+    int
+    default 20 if AIC_SCREEN_VMAXC16_9_16
+    default 12 if AIC_SCREEN_VMAX17_11_88
+    default 40 if AIC_SCREEN_VMAXA52_5_2
+    default 20 if AIC_SCREEN_VMAXC50_6
+    default 20 if AIC_SCREEN_VMAXC56_7
+    default 32 if AIC_SCREEN_VMAXC32_10_95
+    default 20 if AIC_SCREEN_VMAXA27_7
+    default 92 if AIC_SCREEN_VMAXC55_5_99
+    default 6  if AIC_SCREEN_VMAXC57_7
+    default 32 if AIC_SCREEN_VMAXC59_14_5
+    default 42 if AIC_SCREEN_VMAXC54_12_6
+    default 20 if AIC_SCREEN_VMAXC15_10_11
+    default 8  if AIC_SCREEN_VMAXC30_6_67
+    default 10 if AIC_SCREEN_VMAXC40_12_6
+    default 24 if AIC_SCREEN_VMAXC49_15_6
+    default 24 if AIC_SCREEN_VMAXA67_11_6   
+
+config AIC_JD9365_VSYNC_LEN
+    int
+    default 4 if AIC_SCREEN_VMAXC16_9_16
+    default 3 if AIC_SCREEN_VMAX17_11_88
+    default 4 if AIC_SCREEN_VMAXA52_5_2
+    default 4 if AIC_SCREEN_VMAXC50_6
+    default 2 if AIC_SCREEN_VMAXC56_7
+    default 4 if AIC_SCREEN_VMAXC32_10_95
+    default 4 if AIC_SCREEN_VMAXA27_7
+    default 16 if AIC_SCREEN_VMAXC55_5_99
+    default 4 if AIC_SCREEN_VMAXC57_7
+    default 6 if AIC_SCREEN_VMAXC59_14_5 || AIC_SCREEN_VMAXC54_12_6
+    default 4 if AIC_SCREEN_VMAXC15_10_11
+    default 6 if AIC_SCREEN_VMAXC30_6_67
+    default 8 if AIC_SCREEN_VMAXC40_12_6
+    default 2 if AIC_SCREEN_VMAXC49_15_6
+    default 2 if AIC_SCREEN_VMAXA67_11_6       
+
+# ---- JD9365 DSI panel: DSI link parameters ----
+# mode: DSI_MOD_VID_PULSE=0x01, EVENT=0x02, BURST=0x04, NO_EOT=0x20
+config AIC_JD9365_DSI_MODE
+    hex
+    default 0x24 if AIC_SCREEN_VMAXC16_9_16     # BURST | NO_EOT
+    default 0x24 if AIC_SCREEN_VMAX17_11_88
+    default 0x24 if AIC_SCREEN_VMAXA52_5_2
+    default 0x24 if AIC_SCREEN_VMAXC50_6
+    default 0x24 if AIC_SCREEN_VMAXC56_7
+    default 0x24 if AIC_SCREEN_VMAXC32_10_95
+    default 0x04 if AIC_SCREEN_VMAXA27_7        # BURST
+    default 0x04 if AIC_SCREEN_VMAXC55_5_99
+    default 0x24 if AIC_SCREEN_VMAXC57_7
+    default 0x04 if AIC_SCREEN_VMAXC59_14_5 || AIC_SCREEN_VMAXC54_12_6
+    default 0x04 if AIC_SCREEN_VMAXC15_10_11
+    default 0x02 if AIC_SCREEN_VMAXC30_6_67     # EVENT
+    default 0x24 if AIC_SCREEN_VMAXC40_12_6
+    default 0x24 if AIC_SCREEN_VMAXC49_15_6
+    default 0x24 if AIC_SCREEN_VMAXA67_11_6    
+
+config AIC_JD9365_DSI_FMT
+    int
+    default 0   # DSI_FMT_RGB888
+
+config AIC_JD9365_DSI_LANE_NUM
+    int
+    default 4 if AIC_SCREEN_VMAXC16_9_16
+    default 4 if AIC_SCREEN_VMAX17_11_88
+    default 2 if AIC_SCREEN_VMAXA52_5_2
+    default 2 if AIC_SCREEN_VMAXC50_6
+    default 4 if AIC_SCREEN_VMAXC56_7
+    default 4 if AIC_SCREEN_VMAXC32_10_95
+    default 4 if AIC_SCREEN_VMAXA27_7
+    default 2 if AIC_SCREEN_VMAXC55_5_99
+    default 4 if AIC_SCREEN_VMAXC57_7
+    default 4 if AIC_SCREEN_VMAXC59_14_5 || AIC_SCREEN_VMAXC54_12_6
+    default 4 if AIC_SCREEN_VMAXC15_10_11
+    default 4 if AIC_SCREEN_VMAXC30_6_67
+    default 4 if AIC_SCREEN_VMAXC40_12_6
+    default 4 if AIC_SCREEN_VMAXC49_15_6
+    default 4 if AIC_SCREEN_VMAXA67_11_6    
+
+# ---- JD9365 DSI panel: GPIO pins ----
+# MIPI (ST7703 style): reset/on/iovcc
+# EDP (DSI->eDP bridge): lcd_on/reset/led_en/led_pwm
+# VMAXC30: reset/lcd_on/avdd/fd
+config AIC_JD9365_RESET_PIN
+    string
+    default "PE.6"  if AIC_SCREEN_VMAXC16_9_16 || AIC_SCREEN_VMAX17_11_88 || \
+                        AIC_SCREEN_VMAXA52_5_2 || AIC_SCREEN_VMAXC50_6 || \
+                        AIC_SCREEN_VMAXC56_7 || AIC_SCREEN_VMAXC32_10_95 || AIC_SCREEN_VMAXA27_7 || \
+                        AIC_SCREEN_VMAXC55_5_99 || AIC_SCREEN_VMAXC57_7
+    default "PE.14" if AIC_SCREEN_VMAXC59_14_5 || AIC_SCREEN_VMAXC54_12_6
+    default "PE.11" if AIC_SCREEN_VMAXC15_10_11
+    default "PD.6"  if AIC_SCREEN_VMAXC30_6_67
+    default "PE.15" if AIC_SCREEN_VMAXC40_12_6 || AIC_SCREEN_VMAXC49_15_6 || AIC_SCREEN_VMAXA67_11_6
+    default "NONE"
+
+config AIC_JD9365_ON_PIN
+    string
+    default "PE.2"  if AIC_SCREEN_VMAXC16_9_16 || AIC_SCREEN_VMAX17_11_88 || \
+                        AIC_SCREEN_VMAXA52_5_2 || AIC_SCREEN_VMAXC50_6 || \
+                        AIC_SCREEN_VMAXC56_7 || AIC_SCREEN_VMAXC32_10_95 || AIC_SCREEN_VMAXA27_7 || \
+                        AIC_SCREEN_VMAXC55_5_99 || AIC_SCREEN_VMAXC57_7
+    default "PE.3"  if AIC_SCREEN_VMAXC59_14_5 || AIC_SCREEN_VMAXC54_12_6
+    default "PE.15" if AIC_SCREEN_VMAXC15_10_11
+    default "PE.15" if AIC_SCREEN_VMAXC30_6_67
+    default "PE.9"  if AIC_SCREEN_VMAXC40_12_6 || AIC_SCREEN_VMAXC49_15_6 || AIC_SCREEN_VMAXA67_11_6
+    default "NONE"
+    default "NONE"
+
+config AIC_JD9365_IOVCC_PIN
+    string
+    default "PE.1"  if AIC_SCREEN_VMAXC16_9_16 || AIC_SCREEN_VMAX17_11_88 || \
+                        AIC_SCREEN_VMAXA52_5_2 || AIC_SCREEN_VMAXC50_6 || \
+                        AIC_SCREEN_VMAXC56_7 || AIC_SCREEN_VMAXC32_10_95 || AIC_SCREEN_VMAXA27_7 || \
+                        AIC_SCREEN_VMAXC55_5_99 || AIC_SCREEN_VMAXC57_7
+    default "PE.14" if AIC_SCREEN_VMAXC15_10_11
+    default "NONE"
+
+config AIC_JD9365_AVDD_PIN
+    string
+    default "PE.5" if AIC_SCREEN_VMAXC30_6_67
+    default "NONE"
+
+config AIC_JD9365_FD_PIN
+    string
+    default "PE.19" if AIC_SCREEN_VMAXC30_6_67
+    default "NONE"
+
+config AIC_JD9365_DEMUX_EN_PIN
+    string
+    default "PE.18" if AIC_SCREEN_VMAXC59_14_5 || AIC_SCREEN_VMAXC54_12_6
+    default "NONE"
+
+config AIC_JD9365_VDDIO_ON_PIN
+    string
+    default "PE.2" if AIC_SCREEN_VMAXC30_6_67
+    default "NONE"
+
+config AIC_JD9365_DVDD_ON_PIN
+    string
+    default "PE.3" if AIC_SCREEN_VMAXC30_6_67
+    default "NONE"
+
+endmenu

@@ -1,0 +1,21 @@
+[
+  {"symbol":"AIC_SCREEN_VMAXC16_9_16", "model":"16", "width":462, "height":1920, "touch_width":1920, "touch_height":462, "touch_to_native_cw":90},
+  {"symbol":"AIC_SCREEN_VMAX17_11_88", "model":"17", "width":320, "height":1600, "touch_width":320, "touch_height":1600, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXA52_5_2", "model":"52", "width":720, "height":1280, "touch_width":720, "touch_height":1280, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXC50_6", "model":"50", "width":720, "height":1440, "touch_width":720, "touch_height":1440, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXC56_7", "model":"56", "width":1200, "height":1920, "touch_width":1200, "touch_height":1920, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXC32_10_95", "model":"32", "width":1200, "height":1920, "touch_width":1200, "touch_height":1920, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXA27_7", "model":"27", "width":1024, "height":600, "touch_width":1024, "touch_height":600, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXC55_5_99", "model":"55", "width":540, "height":1092, "touch_width":540, "touch_height":1092, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXC57_7", "model":"57", "width":800, "height":1280, "touch_width":800, "touch_height":1280, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXC59_14_5", "model":"59", "width":2560, "height":720, "touch_width":2560, "touch_height":720, "touch_to_native_cw":0, "touch_flip_y":true},
+  {"symbol":"AIC_SCREEN_VMAXC54_12_6", "model":"54", "width":2560, "height":666, "touch_width":2560, "touch_height":720, "touch_to_native_cw":0, "touch_flip_y":true},
+  {"symbol":"AIC_SCREEN_VMAXC15_10_11", "model":"15", "width":480, "height":1920, "touch_width":1920, "touch_height":480, "touch_to_native_cw":90},
+  {"symbol":"AIC_SCREEN_VMAXC30_6_67", "model":"30", "width":1080, "height":2400, "touch_width":1024, "touch_height":600, "touch_to_native_cw":0, "touch_flip_x":true, "touch_flip_y":true},
+  {"symbol":"AIC_SCREEN_VMAXC40_12_6", "model":"40", "width":1920, "height":515, "touch_width":1920, "touch_height":515, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXA67_11_6", "model":"67", "width":1366, "height":768, "touch_width":1366, "touch_height":768, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXC49_15_6", "model":"49", "width":1920, "height":1080, "touch_width":1920, "touch_height":1080, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXA44_19", "model":"44", "width":1920, "height":360, "touch_width":2560, "touch_height":720, "touch_to_native_cw":0, "touch_flip_y":true},
+  {"symbol":"AIC_SCREEN_VMAXA51_12_3", "model":"51", "width":1920, "height":720, "touch_width":1920, "touch_height":720, "touch_to_native_cw":0},
+  {"symbol":"AIC_SCREEN_VMAXC63_12_6", "model":"63", "width":2560, "height":666, "touch_width":2560, "touch_height":720, "touch_to_native_cw":0, "touch_flip_y":true}
+]
